@@ -37,6 +37,17 @@ public class OffreurController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/{id}/rdv")
+    public ResponseEntity<Offreur> rdv(@PathVariable Integer id) {
+        return offreurDao.findById(id)
+                .map(offreur -> {
+                    offreur.setNbrdv(offreur.getNbrdv()+1);
+                    offreurDao.save(offreur);
+                    return ResponseEntity.ok(offreur);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/{id}")
     @JsonView(OffreurView.class)
     public ResponseEntity<Offreur> get(@PathVariable Integer id) {

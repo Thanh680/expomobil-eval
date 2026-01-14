@@ -9,5 +9,5 @@ export default function Logout() {
         logout();
     }, []);
 
-    return null; // pas de UI
+    return null;
 }

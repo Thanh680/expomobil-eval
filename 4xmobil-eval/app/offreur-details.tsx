@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Image } from 'expo-image';
 import { ThemedView } from '@/components/themed-view';
-import {StyleSheet, TouchableOpacity, View, Text, Pressable, ScrollView,ActivityIndicator  } from "react-native";
+import {Alert, StyleSheet, TouchableOpacity, View, Text, Pressable, ScrollView,ActivityIndicator  } from "react-native";
 import {SafeAreaView, useSafeAreaInsets} from "react-native-safe-area-context";
 import { useLocalSearchParams } from 'expo-router';
 import {Link} from "expo-router";
@@ -21,7 +21,7 @@ export default function OffreurDetails() {
         description: string;
         avatar: string;
         note: number;
-        nbRdv: number;
+        nbrdv: number;
         prix: number;
     }
 
@@ -31,31 +31,49 @@ export default function OffreurDetails() {
     const [offreur, setOffreur] = useState<Offreur | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const loadOffreur = async () => {
+        try {
+            const response = await fetch(
+                `http://172.17.18.16:8080/api/offreur/${id}`
+            );
+
+            if (!response.ok) {
+                throw new Error('Erreur serveur');
+            }
+
+            const data: Offreur = await response.json();
+            setOffreur(data);
+            navigation.setOptions({ title: data.titre });
+        } catch (error) {
+            console.error(error);
+        }finally {
+            setLoading(false);
+        }
+    };
     useEffect(() => {
         if (!id) return;
 
-        const loadOffreur = async () => {
-            try {
-                const response = await fetch(
-                    `http://172.17.18.16:8080/api/offreur/${id}`
-                );
-
-                if (!response.ok) {
-                    throw new Error('Erreur serveur');
-                }
-
-                const data: Offreur = await response.json();
-                setOffreur(data);
-                navigation.setOptions({ title: data.titre });
-            } catch (error) {
-                console.error(error);
-            }finally {
-                setLoading(false);
-            }
-        };
-
         loadOffreur();
     }, [id]);
+
+    const handlePress = async () => {
+        try {
+            const response = await fetch(
+                `http://172.17.18.16:8080/api/offreur/${id}/rdv`,
+                { method: 'PUT' }
+            );
+
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error || 'Impossible de prendre le RDV');
+            }
+
+            Alert.alert('Succès', "Le RDV a bien été pris en compte");
+            loadOffreur();
+        } catch (error: any) {
+            Alert.alert('Erreur', "Le RDV n'a pas pu être pris en compte");
+        }
+    };
 
     if (loading) {
         return (
@@ -86,7 +104,7 @@ export default function OffreurDetails() {
                     {offreur.prenom} {offreur.nom}, {offreur.age} ans
                 </Text>
 
-                <Text style={styles.note}>⭐ {offreur.note} • {offreur.nbRdv} RDV</Text>
+                <Text style={styles.note}>⭐ {offreur.note} • {offreur.nbrdv} RDV</Text>
                 <Text style={styles.ville}>{offreur.ville}</Text>
                 </View>
                 <View style={styles.separator} />
@@ -97,7 +115,8 @@ export default function OffreurDetails() {
                 <View style={styles.separator} />
 
                 <Text style={styles.prix}>{offreur.prix}€ / heure</Text>
-                <TouchableOpacity style={styles.button}>
+
+                <TouchableOpacity style={styles.button} onPress={handlePress}>
                     <Text style={styles.buttonText}>Prendre RDV</Text>
                 </TouchableOpacity>
                 <Link

@@ -111,8 +111,6 @@ export default function OffreurScreen() {
                 return distance < 10;
             })
             : [];
-
-        console.log(haversine(start, end, {unit: 'km'}) +" km")
     }
 
 
