@@ -26,6 +26,17 @@ public class OffreurController {
         return offreurDao.findAll();
     }
 
+    @PutMapping("/{id}/rate")
+    public ResponseEntity<Offreur> rate(@PathVariable Integer id, @RequestParam int rating) {
+        return offreurDao.findById(id)
+                .map(offreur -> {
+                    offreur.setNote(rating);
+                    offreurDao.save(offreur);
+                    return ResponseEntity.ok(offreur);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/{id}")
     @JsonView(OffreurView.class)
     public ResponseEntity<Offreur> get(@PathVariable Integer id) {

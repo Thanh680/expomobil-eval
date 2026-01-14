@@ -93,6 +93,9 @@ export default function OffreurDetails() {
                 <View style={styles.separator} />
 
                 <Text style={styles.prix}>{offreur.prix}€ / heure</Text>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Prendre RDV</Text>
+                </TouchableOpacity>
                 <Link
                     href={{
                         pathname: "/offreur-note",
@@ -101,7 +104,7 @@ export default function OffreurDetails() {
                     asChild
                 >
                 <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Prendre RDV</Text>
+                    <Text style={styles.buttonText}>Noter le service</Text>
                 </TouchableOpacity>
                 </Link>
             </ScrollView>
@@ -118,6 +121,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 8,
+        padding: 12,
     },
     buttonText: {
         color: '#fff',
