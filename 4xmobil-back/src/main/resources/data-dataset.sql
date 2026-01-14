@@ -1,7 +1,7 @@
-INSERT INTO app_user (id, email, password, offreur, admin) VALUES
-                                                      ('1','a@a.com', '$2a$10$KBPFXGAAQIdGOkzg8S4c7OHnyB78w.BKjqAYvxP2yK5vGMTKNXBiK',false,true),
-                                                      ('2','b@b.com', '$2a$10$KBPFXGAAQIdGOkzg8S4c7OHnyB78w.BKjqAYvxP2yK5vGMTKNXBiK',true,false),
-                                                      ('3','c@c.com', '$2a$10$KBPFXGAAQIdGOkzg8S4c7OHnyB78w.BKjqAYvxP2yK5vGMTKNXBiK',false, false);
+INSERT INTO app_user (email, password, offreur, admin) VALUES
+                                                      ('a@a.com', '$2a$10$KBPFXGAAQIdGOkzg8S4c7OHnyB78w.BKjqAYvxP2yK5vGMTKNXBiK',false,true),
+                                                      ('b@b.com', '$2a$10$KBPFXGAAQIdGOkzg8S4c7OHnyB78w.BKjqAYvxP2yK5vGMTKNXBiK',true,false),
+                                                      ('c@c.com', '$2a$10$KBPFXGAAQIdGOkzg8S4c7OHnyB78w.BKjqAYvxP2yK5vGMTKNXBiK',false, false);
 
 INSERT INTO offreur (
     id,

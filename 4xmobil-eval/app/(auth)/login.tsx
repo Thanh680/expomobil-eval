@@ -26,8 +26,15 @@ export default function Login() {
                 alert('Erreur serveur');
                 return;
             }
+            const user = await response.text();
 
-            router.replace('/(tabs)');
+            // Redirection conditionnelle
+            if (user === "true") {
+                router.replace('/(offreur)/offreur');
+            } else {
+                router.replace('/(loueur)/loueur');
+            }
+
 
         } catch (error) {
             console.error(error);
@@ -69,9 +76,14 @@ export default function Login() {
                     Créer un compte
                 </Link>
             </View>
-            <View style={[styles.links, { marginTop: 10 }]}>
+            <View style={[styles.links, { marginTop: 30 }]}>
                 <Link href="/offreur" style={styles.link}>
-                    Flemme de me connecter (accès offreur)
+                    Accès offreur sans connexion
+                </Link>
+            </View>
+            <View style={[styles.links, { marginTop: 10 }]}>
+                <Link href="/loueur" style={styles.link}>
+                    Accès loueur sans connexion
                 </Link>
             </View>
         </SafeAreaView>

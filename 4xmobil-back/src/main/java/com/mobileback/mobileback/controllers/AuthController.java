@@ -35,8 +35,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AppUser> register(@RequestBody @Valid AppUser user) {
-
+    public ResponseEntity<AppUser> register(@RequestBody AppUser user) {
+        user.setId(null);
         Optional<AppUser> optionalAppUser = appUserDao.findByEmail(user.getEmail());
         if(optionalAppUser.isPresent()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -49,7 +49,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AppUser user) {
+    public ResponseEntity<Boolean> login(@RequestBody AppUser user) {
 
         try {
             AppUserDetails userDetails = (AppUserDetails) authenticationProvider
@@ -59,7 +59,7 @@ public class AuthController {
                                     user.getPassword()))
                     .getPrincipal();
 
-            return new ResponseEntity<>(jwtService.generateToken(userDetails), HttpStatus.OK);
+            return new ResponseEntity<>(userDetails.getUser().isOffreur(), HttpStatus.OK);
 
         } catch (AuthenticationException e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

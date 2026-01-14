@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
+import { Image } from 'expo-image';
 import { ThemedView } from '@/components/themed-view';
-import {StyleSheet, TouchableOpacity, View, Text, Pressable,Image, ScrollView,ActivityIndicator  } from "react-native";
+import {StyleSheet, TouchableOpacity, View, Text, Pressable, ScrollView,ActivityIndicator  } from "react-native";
 import {SafeAreaView, useSafeAreaInsets} from "react-native-safe-area-context";
 import { useLocalSearchParams } from 'expo-router';
 import {Link} from "expo-router";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { router } from 'expo-router';
+import { useNavigation } from 'expo-router';
 
 export default function OffreurDetails() {
 
@@ -26,6 +26,7 @@ export default function OffreurDetails() {
     }
 
     const { id } = useLocalSearchParams<{ id: string }>();
+    const navigation = useNavigation();
 
     const [offreur, setOffreur] = useState<Offreur | null>(null);
     const [loading, setLoading] = useState(true);
@@ -45,6 +46,7 @@ export default function OffreurDetails() {
 
                 const data: Offreur = await response.json();
                 setOffreur(data);
+                navigation.setOptions({ title: data.titre });
             } catch (error) {
                 console.error(error);
             }finally {
@@ -74,9 +76,11 @@ export default function OffreurDetails() {
             <SafeAreaView style={{flex:1}}>
         <View style={{flex:1}}>
             <ScrollView contentContainerStyle={styles.container}>
+                <View style={styles.card}>
 
-                <Image source={{ uri: offreur.avatar }} style={styles.avatar} />
-
+                        <Image source={{ uri: offreur.avatar }} style={styles.avatar} />
+                    </View>
+                    <View style={styles.card}>
                 <Text style={styles.titre}>{offreur.titre}</Text>
                 <Text style={styles.nom}>
                     {offreur.prenom} {offreur.nom}, {offreur.age} ans
@@ -84,12 +88,12 @@ export default function OffreurDetails() {
 
                 <Text style={styles.note}>⭐ {offreur.note} • {offreur.nbRdv} RDV</Text>
                 <Text style={styles.ville}>{offreur.ville}</Text>
-
+                </View>
                 <View style={styles.separator} />
-
-                <Text style={styles.section}>Description</Text>
-                <Text style={styles.description}>{offreur.description}</Text>
-
+                <View style={styles.card}>
+                    <Text style={styles.section}>Description</Text>
+                    <Text style={styles.description}>{offreur.description}</Text>
+                </View>
                 <View style={styles.separator} />
 
                 <Text style={styles.prix}>{offreur.prix}€ / heure</Text>
@@ -115,7 +119,7 @@ export default function OffreurDetails() {
 }
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: '#FF385C', // Airbnb red
+        backgroundColor: '#FF385C',
         height: 52,
         borderRadius: 12,
         justifyContent: 'center',
@@ -128,6 +132,17 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
     },
+    card: {
+        borderRadius: 16,
+        backgroundColor: '#fff',
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOpacity: 0.08,
+        shadowRadius: 10,
+        elevation: 3,
+        padding: 10,
+        margin: 8,
+    },
     container: {
         padding: 20,
         alignItems: 'center',
@@ -138,10 +153,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     avatar: {
-        width: 140,
-        height: 140,
-        borderRadius: 70,
-        marginBottom: 16,
+        height: 220,
+        width: 220
     },
     titre: {
         fontSize: 20,
@@ -177,7 +190,7 @@ const styles = StyleSheet.create({
         marginTop: 24,
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#2e7d32',
+        color: '#FF385C',
     },
     separator: {
         width: '100%',

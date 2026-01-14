@@ -18,20 +18,20 @@ public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+    private Integer id;
 
     @Email
     @NotBlank
-    protected String email;
+    private String email;
 
     @NotBlank
     @Length(min = 4)
-    protected String password;
+    private String password;
 
     @OneToOne
-    protected Utilisateur utilisateur;
+    private Utilisateur utilisateur;
 
-    protected boolean offreur;
+    private boolean offreur;
 
-    protected boolean admin;
+    private boolean admin;
 }

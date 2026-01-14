@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Link, router } from 'expo-router';
 
 export default function Register() {
-    const [typeUtilisateur, setTypeUtilisateur] = useState<boolean>(false);
+    const [offreur, setOffreur] = useState<boolean>(false);
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
     const [age, setAge] = useState('');
@@ -24,7 +24,7 @@ export default function Register() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, offreur }),
             });
 
             if (response.status === 401) {
@@ -36,8 +36,12 @@ export default function Register() {
                 alert('Erreur serveur');
                 return;
             }
-
-            router.replace('/(tabs)');
+            console.log(offreur)
+            if (offreur) {
+                router.replace('/(offreur)/offreur');
+            } else {
+                router.replace('/(loueur)/loueur');
+            }
 
         } catch (error) {
             console.error(error);
@@ -55,22 +59,22 @@ export default function Register() {
             <View style={styles.radioGroup}>
                 <TouchableOpacity
                     style={styles.radio}
-                    onPress={() => setTypeUtilisateur(false)}
+                    onPress={() => setOffreur(true)}
                 >
                     <View style={[
                         styles.circle,
-                        typeUtilisateur === false && styles.checked
+                        offreur === true && styles.checked
                     ]} />
                     <Text>Offreur</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={styles.radio}
-                    onPress={() => setTypeUtilisateur(true)}
+                    onPress={() => setOffreur(false)}
                 >
                     <View style={[
                         styles.circle,
-                        typeUtilisateur === true && styles.checked
+                        offreur === false && styles.checked
                     ]} />
                     <Text>Loueur</Text>
                 </TouchableOpacity>
