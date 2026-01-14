@@ -1,0 +1,80 @@
+INSERT INTO app_user (id, email, password, offreur, admin) VALUES
+                                                      ('1','a@a.com', '$2a$10$KBPFXGAAQIdGOkzg8S4c7OHnyB78w.BKjqAYvxP2yK5vGMTKNXBiK',false,true),
+                                                      ('2','b@b.com', '$2a$10$KBPFXGAAQIdGOkzg8S4c7OHnyB78w.BKjqAYvxP2yK5vGMTKNXBiK',true,false),
+                                                      ('3','c@c.com', '$2a$10$KBPFXGAAQIdGOkzg8S4c7OHnyB78w.BKjqAYvxP2yK5vGMTKNXBiK',false, false);
+
+INSERT INTO offreur (
+    id,
+    titre,
+    nom,
+    prenom,
+    age,
+    latitude,
+    longitude,
+    ville,
+    description,
+    avatar,
+    note,
+    nbrdv,
+    prix
+) VALUES
+      (
+          1,
+          'Plombier du Centre Pompidou',
+          'Dupont',
+          'Jean',
+          30,
+          49.11911,
+          6.17269,
+          'Metz',
+          'Plombier expérimenté, disponible pour tous types de travaux.',
+          'https://placehold.co/200x200/EEE/31343C',
+          4.5,
+          120,
+          50
+      ),
+      (
+          2,
+          'Électricien du Saint Jacques',
+          'Martin',
+          'Sophie',
+          30,
+          49.11808776855469,
+          6.177518844604492,
+          'Metz',
+          'Électricienne qualifiée, spécialisée en installations résidentielles.',
+          'https://placehold.co/200x200/EEE/31343C',
+          4.7,
+          95,
+          60
+      ),
+      (
+          3,
+          'Jardinier de la Tour Eiffel',
+          'Bernard',
+          'Luc',
+          30,
+          48.8582599,
+          2.2945006,
+          'Paris',
+          'Jardinier passionné, entretien et aménagement de jardins.',
+          'https://placehold.co/200x200/EEE/31343C',
+          4.9,
+          150,
+          40
+      ),
+      (
+          4,
+          'Peintre de Nancy',
+          'Leroy',
+          'Claire',
+          30,
+          48.6931308,
+          6.1826685,
+          'Nancy',
+          'Peintre professionnelle, travaux intérieurs et extérieurs.',
+          'https://placehold.co/200x200/EEE/31343C',
+          4.6,
+          80,
+          55
+      );
